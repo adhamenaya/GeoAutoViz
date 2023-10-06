@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: GeoAutoViz
+Version: 0.0.1
+Summary: GeoAutoViz
+Author: Adham Enaya
+Author-email: adhamenaya@gmail.com>
+Keywords: geospatial,analytics,visualization
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Education
+Classifier: Programming Language :: Python :: 3
+Classifier: Operating System :: MacOS :: MacOS X
+Classifier: Operating System :: Microsoft :: Windows
+
+A software package for automating geospatial data analytics and visualization
