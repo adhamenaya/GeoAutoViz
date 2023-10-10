@@ -1,4 +1,6 @@
 from GeoAutoViz.mobile_app_data.TrajectoryAnalyzer.TrajectoryDataSource import TrajectoryDataSource
+
+
 class TrajectoryAnalyzer:
     def __init__(self):
         self.ds = TrajectoryDataSource()

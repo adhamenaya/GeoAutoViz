@@ -6,7 +6,7 @@ import osmnx
 from GeoAutoViz.db_manager import DBManager
 
 
-class UrbanFeaturesDataSource():
+class UrbanFeaturesOfflineDataSource(DataSource):
     def __init__(self, place, db_name=None, local_crs=5514):
         super().__init__()
         # Initialize PostGIS-specific attributes here
@@ -37,6 +37,10 @@ class UrbanFeaturesDataSource():
         self.percentiles_joined = None
         self.percentiles_standardized = None
         self.urban_types = None
+
+    def extract_data(self):
+        # Implement the extraction logic for PostGIS
+        pass
 
     def extract_buildings(self, source=Mode.Online, save_offline=False, mode=Offline.DB):
         if source == Mode.Online:

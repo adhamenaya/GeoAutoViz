@@ -23,7 +23,7 @@
 
 import warnings
 
-from db_manager import DBManager
+from GeoAutoViz.db_manager import DBManager
 
 from GeoAutoViz.interfaces.DataVisualizer import DataVisualizer
 
@@ -56,6 +56,15 @@ class UrbanFeaturesVisualizer(DataVisualizer):
         self.urban_types = None
 
         self.analyzer = analyzer
+
+    def plot_buildings(self):
+        self.analyzer.buildings.plot()
+
+    def plot_tessellations(self):
+        self.analyzer.tessellations.plot()
+
+    def plot_streets(self):
+        self.analyzer.streets.plot()
 
     def plot_eri(self):
         self.analyzer.buildings.plot("eri", scheme="natural_breaks", legend=True)
@@ -91,14 +100,17 @@ class UrbanFeaturesVisualizer(DataVisualizer):
         self.analyzer.tessellations.plot("car", vmin=0, vmax=1, legend=True)
 
     def plot_nodes_degree(self):
-        self.analyzer.nodes.plot("degree", scheme="natural_breaks", legend=True, markersize=1)
+        self.analyzer.streets_nodes.plot("degree", scheme="natural_breaks", legend=True, markersize=1)
 
     def plot_nodes_closeness(self):
-        self.analyzer.nodes.plot("closeness", scheme="natural_breaks", legend=True, markersize=1,
+        self.analyzer.streets_nodes.plot("closeness", scheme="natural_breaks", legend=True, markersize=1,
                                  legend_kwds={"fmt": "{:.6f}"})
 
     def plot_nodes_meshedness(self):
-        self.analyzer.nodes.plot("meshedness", legend=True, markersize=1)
+        self.analyzer.streets_nodes.plot("meshedness", legend=True, markersize=1)
 
     def plot_merged_convexity_50(self):
         self.analyzer.merged.plot(self.analyzer.percentiles_joined, self.merged)
+
+    def plot_urban_types(self):
+        self.analyzer.urban_types.plot("cluster", categorical=True, figsize=(8, 8), legend=True)

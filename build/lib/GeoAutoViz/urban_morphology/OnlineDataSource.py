@@ -2,6 +2,7 @@ import osmnx
 
 from GeoAutoViz.interfaces.DataSource import DataSource
 
+
 class OnlineDataSource(DataSource):
     def __init__(self, place, data_type):
         self.place = place

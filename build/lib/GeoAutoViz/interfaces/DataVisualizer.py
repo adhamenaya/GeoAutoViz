@@ -2,6 +2,6 @@ from abc import ABC, abstractmethod
 
 
 class DataVisualizer(ABC):
-    @abstractmethod
+    #ß@abstractmethod
     def visualize_data(self):
         pass

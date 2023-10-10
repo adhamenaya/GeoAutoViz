@@ -82,6 +82,7 @@ class UrbanFeaturesAnalyzer(DataAnalyzer):
 
     def merge_buildings_tessellations(self):
         print("Merging buildings and tessellations...")
+        self.tessellations = self.tessellations.drop_duplicates("uID")
         self.tessellations = self.tessellations.merge(self.buildings[['uID', 'nID']], on='uID', how='left')
 
     def compute_buildings_area(self):
@@ -116,16 +117,17 @@ class UrbanFeaturesAnalyzer(DataAnalyzer):
         print("Computing building's shared walls ratio...")
         self.buildings["shared_walls"] = momepy.SharedWallsRatio(self.buildings).series
 
-    def setup_neighbors(self):
+    def setup_neighbors(self, order=3):
         """
         ids="uID" is the unique ID of spatial unit, and "queen_1" represents the spatial wight matrix using the queen
         continuity criterion. "queen_3" generates spatial weights based on a higher order criterion (=3).
         :return:
         """
         print("Setting up neighbors...")
-        self.queen_1 = libpysal.weights.contiguity.Queen.from_dataframe(self.tessellations, ids="uID",
+        self.queen_1 = libpysal.weights.contiguity.Queen.from_dataframe(self.tessellations,
+                                                                        ids="uID",
                                                                         silence_warnings=True)
-        self.queen_3 = momepy.sw_high(k=3, weights=self.queen_1)
+        self.queen_3 = momepy.sw_high(k=order, weights=self.queen_1)
 
     def compute_tessellation_neighbors(self):
         print("Computing tessellation neighbors...")
@@ -139,19 +141,18 @@ class UrbanFeaturesAnalyzer(DataAnalyzer):
 
     def compute_building_neighbor_distance(self):
         print("Computing building's neighbor distance...")
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            self.buildings["neighbor_distance"] = momepy.NeighborDistance(self.buildings, self.queen_1, "uID",
+        #self.setup_neighbors()
+        self.buildings["neighbor_distance"] = momepy.NeighborDistance(self.buildings, self.queen_1, "uID",
                                                                           verbose=False).series
 
     def compute_building_interbuilding_distance(self):
-        self.setup_neighbors()
+        #self.setup_neighbors()
         print("Computing building's interbuilding distance...")
         self.buildings["interbuilding_distance"] = momepy.MeanInterbuildingDistance(self.buildings, self.queen_1, "uID",
                                                                                     self.queen_3, verbose=False).series
 
     def compute_building_adjacency(self):
-        self.setup_neighbors()
+        #self.setup_neighbors()
         print("Computing building adjacency...")
         buildings_q1 = libpysal.weights.contiguity.Queen.from_dataframe(self.buildings, silence_warnings=True)
         self.buildings["adjacency"] = momepy.BuildingAdjacency(self.buildings, self.queen_3, "uID", buildings_q1,
@@ -198,7 +199,7 @@ class UrbanFeaturesAnalyzer(DataAnalyzer):
     def compute_merged_percentiles(self):
         self.merge_buildings_nodes()
         self.merge_all_datasets()
-        self.setup_neighbors()
+        #self.setup_neighbors()
 
         print("Computing merged percentiles...")
         percentiles = []
@@ -215,11 +216,11 @@ class UrbanFeaturesAnalyzer(DataAnalyzer):
         self.percentiles_standardized = (self.percentiles_joined - self.percentiles_joined.mean()) / \
                                         self.percentiles_joined.std()
 
-    def do_clustering(self, labels_count=4):
+    def do_urban_type_clustering(self, labels_count=4):
         print(f"Performing clustering with {labels_count} labels...")
-        cgram = Clustergram(range(1, 12), n_init=10, random_state=42)
+        cgram = Clustergram(range(0, labels_count), n_init=10, random_state=42)
         cgram.fit(self.percentiles_standardized.fillna(0))
-        self.merged["cluster"] = cgram.labels[labels_count].values
+        self.merged["cluster"] = cgram.labels[labels_count-1].values
         self.urban_types = self.buildings[["geometry", "uID"]].merge(self.merged[["uID", "cluster"]], on="uID")
 
     def save_urban_types_to_db(self):
@@ -231,7 +232,7 @@ class UrbanFeaturesAnalyzer(DataAnalyzer):
         self.urban_types = self.db.read_urban_types()
         return self.urban_types
 
-    def prepare_data_for_clustering(self):
+    def run_all(self):
         self.compute_buildings_area()
         self.compute_tessellation_area()
         self.compute_street_length()
@@ -254,5 +255,4 @@ class UrbanFeaturesAnalyzer(DataAnalyzer):
         self.compute_merged_percentiles()
         self.compute_standardized_percentiles()
 
-        self.do_clustering()
-
+        self.do_urban_type_clustering()

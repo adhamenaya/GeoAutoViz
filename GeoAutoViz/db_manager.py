@@ -13,16 +13,16 @@ class DBManager:
         self.engine = create_engine('postgresql://postgres:root@localhost:5432/urban_morphology')
 
     def save_buildings(self, gdf_buildings):
-        gdf_buildings.to_postgis(self.city+"_building", self.engine, if_exists='append')
+        gdf_buildings.to_postgis(self.city + "_building", self.engine, if_exists='append')
 
     def save_tessellations(self, gdf_tessellations):
-        gdf_tessellations.to_postgis(self.city+"_tessellation", self.engine, if_exists='append')
+        gdf_tessellations.to_postgis(self.city + "_tessellation", self.engine, if_exists='append')
 
     def save_streets(self, gdf_streets):
-        gdf_streets.to_postgis(self.city+"_street", self.engine, if_exists='append')
+        gdf_streets.to_postgis(self.city + "_street", self.engine, if_exists='append')
 
     def save_urban_types(self, gdf_urban_types):
-        gdf_urban_types.to_postgis(self.city+"_urban_types", self.engine, if_exists='append')
+        gdf_urban_types.to_postgis(self.city + "_urban_types", self.engine, if_exists='append')
 
     def read_buildings(self):
         query = 'SELECT *, geometry AS geom FROM ' + self.city + "_building"
