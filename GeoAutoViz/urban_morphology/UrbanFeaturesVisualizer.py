@@ -23,7 +23,7 @@
 
 import warnings
 
-from db_manager import DBManager
+from GeoAutoViz.db_manager import DBManager
 
 from GeoAutoViz.interfaces.DataVisualizer import DataVisualizer
 

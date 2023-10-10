@@ -16,7 +16,7 @@ import momepy
 import pandas
 from clustergram import Clustergram
 
-from db_manager import DBManager
+from GeoAutoViz.db_manager import DBManager
 
 from GeoAutoViz.interfaces.DataAnalyzer import DataAnalyzer
 
