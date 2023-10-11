@@ -218,7 +218,7 @@ class UrbanFeaturesAnalyzer(DataAnalyzer):
 
     def do_urban_type_clustering(self, labels_count=4):
         print(f"Performing clustering with {labels_count} labels...")
-        cgram = Clustergram(range(0, labels_count), n_init=10, random_state=42)
+        cgram = Clustergram(range(1, labels_count), n_init=10, random_state=42)
         cgram.fit(self.percentiles_standardized.fillna(0))
         self.merged["cluster"] = cgram.labels[labels_count-1].values
         self.urban_types = self.buildings[["geometry", "uID"]].merge(self.merged[["uID", "cluster"]], on="uID")
