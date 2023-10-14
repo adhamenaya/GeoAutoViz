@@ -1,5 +1,6 @@
 setup.py
 GeoAutoViz/DatabaseConnector.py
+GeoAutoViz/GeoUtils.py
 GeoAutoViz/__init__.py
 GeoAutoViz/db_manager.py
 GeoAutoViz.egg-info/PKG-INFO
@@ -16,6 +17,8 @@ GeoAutoViz/mobile_app_data/TrajectoryAnalyzer/TrajectoryAnalyzer.py
 GeoAutoViz/mobile_app_data/TrajectoryAnalyzer/TrajectoryDataSource.py
 GeoAutoViz/mobile_app_data/TrajectoryAnalyzer/UKZonesDataSource.py
 GeoAutoViz/mobile_app_data/TrajectoryAnalyzer/__init__.py
+GeoAutoViz/spatial_analysis/CatchmentAreaAnalyzer.py
+GeoAutoViz/spatial_analysis/__init__.py
 GeoAutoViz/urban_morphology/OnlineDataSource.py
 GeoAutoViz/urban_morphology/UrbanFeaturesAnalyzer.py
 GeoAutoViz/urban_morphology/UrbanFeaturesDataSource.py

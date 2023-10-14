@@ -15,9 +15,7 @@ import libpysal
 import momepy
 import pandas
 from clustergram import Clustergram
-
 from GeoAutoViz.db_manager import DBManager
-
 from GeoAutoViz.interfaces.DataAnalyzer import DataAnalyzer
 
 
@@ -141,18 +139,18 @@ class UrbanFeaturesAnalyzer(DataAnalyzer):
 
     def compute_building_neighbor_distance(self):
         print("Computing building's neighbor distance...")
-        #self.setup_neighbors()
+        # self.setup_neighbors()
         self.buildings["neighbor_distance"] = momepy.NeighborDistance(self.buildings, self.queen_1, "uID",
-                                                                          verbose=False).series
+                                                                      verbose=False).series
 
     def compute_building_interbuilding_distance(self):
-        #self.setup_neighbors()
+        # self.setup_neighbors()
         print("Computing building's interbuilding distance...")
         self.buildings["interbuilding_distance"] = momepy.MeanInterbuildingDistance(self.buildings, self.queen_1, "uID",
                                                                                     self.queen_3, verbose=False).series
 
     def compute_building_adjacency(self):
-        #self.setup_neighbors()
+        # self.setup_neighbors()
         print("Computing building adjacency...")
         buildings_q1 = libpysal.weights.contiguity.Queen.from_dataframe(self.buildings, silence_warnings=True)
         self.buildings["adjacency"] = momepy.BuildingAdjacency(self.buildings, self.queen_3, "uID", buildings_q1,
@@ -199,7 +197,7 @@ class UrbanFeaturesAnalyzer(DataAnalyzer):
     def compute_merged_percentiles(self):
         self.merge_buildings_nodes()
         self.merge_all_datasets()
-        #self.setup_neighbors()
+        # self.setup_neighbors()
 
         print("Computing merged percentiles...")
         percentiles = []
@@ -220,7 +218,7 @@ class UrbanFeaturesAnalyzer(DataAnalyzer):
         print(f"Performing clustering with {labels_count} labels...")
         cgram = Clustergram(range(0, labels_count), n_init=10, random_state=42)
         cgram.fit(self.percentiles_standardized.fillna(0))
-        self.merged["cluster"] = cgram.labels[labels_count-1].values
+        self.merged["cluster"] = cgram.labels[labels_count - 1].values
         self.urban_types = self.buildings[["geometry", "uID"]].merge(self.merged[["uID", "cluster"]], on="uID")
 
     def save_urban_types_to_db(self):
