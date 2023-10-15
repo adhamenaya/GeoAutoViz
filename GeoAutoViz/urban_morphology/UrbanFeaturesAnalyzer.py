@@ -1,13 +1,3 @@
-# GeoPandas: https://geopandas.org/
-# Fiona: https://fiona.readthedocs.io/en/latest/
-# Shapely: https://shapely.readthedocs.io/en/stable/
-# GDAL (Geospatial Data Abstraction Library): https://gdal.org/
-# Rasterio: https://rasterio.readthedocs.io/en/latest/
-# Pyproj: https://pyproj4.github.io/pyproj/stable/
-# Basemap (Matplotlib Toolkit): https://matplotlib.org/basemap/
-# Cartopy: https://scitools.org.uk/cartopy/docs/latest/
-# Rtree: https://toblerity.org/rtree/
-# GeoAlchemy: https://geoalchemy-2.readthedocs.io/en/latest/
 
 import warnings
 
