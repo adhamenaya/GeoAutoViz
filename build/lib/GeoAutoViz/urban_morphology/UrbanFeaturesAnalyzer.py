@@ -1,13 +1,3 @@
-# GeoPandas: https://geopandas.org/
-# Fiona: https://fiona.readthedocs.io/en/latest/
-# Shapely: https://shapely.readthedocs.io/en/stable/
-# GDAL (Geospatial Data Abstraction Library): https://gdal.org/
-# Rasterio: https://rasterio.readthedocs.io/en/latest/
-# Pyproj: https://pyproj4.github.io/pyproj/stable/
-# Basemap (Matplotlib Toolkit): https://matplotlib.org/basemap/
-# Cartopy: https://scitools.org.uk/cartopy/docs/latest/
-# Rtree: https://toblerity.org/rtree/
-# GeoAlchemy: https://geoalchemy-2.readthedocs.io/en/latest/
 
 import warnings
 
@@ -216,7 +206,7 @@ class UrbanFeaturesAnalyzer(DataAnalyzer):
 
     def do_urban_type_clustering(self, labels_count=4):
         print(f"Performing clustering with {labels_count} labels...")
-        cgram = Clustergram(range(0, labels_count), n_init=10, random_state=42)
+        cgram = Clustergram(range(1, labels_count), n_init=10, random_state=42)
         cgram.fit(self.percentiles_standardized.fillna(0))
         self.merged["cluster"] = cgram.labels[labels_count - 1].values
         self.urban_types = self.buildings[["geometry", "uID"]].merge(self.merged[["uID", "cluster"]], on="uID")

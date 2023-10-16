@@ -1,26 +1,3 @@
-# Geopandas - https://lnkd.in/dfJbwYTf
-# Folium - https://lnkd.in/dAZM3CQm
-# Cartopy - https://lnkd.in/dc8ijXRg
-# Basemap - https://www.basemap.com
-# Plotly - https://lnkd.in/dxbQCw6X
-# Bokeh - https://bokeh.org
-# PySAL - https://pysal.org
-# Seaborn - https://seaborn.pydata.org
-# Matplotlib - https://matplotlib.org
-# Geoviews - https://geoviews.org
-# Plotnine - https://plotnine.readthedocs.io/en/stable/
-#
-# Contextily - https://lnkd.in/dTdQsmKX
-# Datashader - https://datashader.org
-# Geemap - https://geemap.org
-# Google Earth - https://lnkd.in/dXZdZc-g
-# IPyleaflet - https://lnkd.in/dZtHigT4
-# Kepler.gl - https://kepler.gl
-# Leafmap - https://leafmap.org
-# Mapwidget - https://lnkd.in/dy4JZzsz
-# OSMNx - https://lnkd.in/dm3pHgUS
-# Pyrosm- https://lnkd.in/dr4xR9mt
-
 import warnings
 
 from GeoAutoViz.db_manager import DBManager

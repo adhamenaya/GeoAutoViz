@@ -8,6 +8,7 @@ GeoAutoViz.egg-info/SOURCES.txt
 GeoAutoViz.egg-info/dependency_links.txt
 GeoAutoViz.egg-info/top_level.txt
 GeoAutoViz/interfaces/DataAnalyzer.py
+GeoAutoViz/interfaces/DataExtractor.py
 GeoAutoViz/interfaces/DataSource.py
 GeoAutoViz/interfaces/DataVisualizer.py
 GeoAutoViz/interfaces/__init__.py
@@ -17,7 +18,8 @@ GeoAutoViz/mobile_app_data/TrajectoryAnalyzer/TrajectoryAnalyzer.py
 GeoAutoViz/mobile_app_data/TrajectoryAnalyzer/TrajectoryDataSource.py
 GeoAutoViz/mobile_app_data/TrajectoryAnalyzer/UKZonesDataSource.py
 GeoAutoViz/mobile_app_data/TrajectoryAnalyzer/__init__.py
-GeoAutoViz/spatial_analysis/CatchmentAreaAnalyzer.py
+GeoAutoViz/spatial_analysis/POIsExtractor.py
+GeoAutoViz/spatial_analysis/ZoneAreaAnalyzer.py
 GeoAutoViz/spatial_analysis/__init__.py
 GeoAutoViz/urban_morphology/OnlineDataSource.py
 GeoAutoViz/urban_morphology/UrbanFeaturesAnalyzer.py
