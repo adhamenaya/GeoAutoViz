@@ -1,4 +1,4 @@
-from shapely import Point, Polygon
+from shapely import Point, Polygon, MultiPolygon
 import math
 
 
@@ -11,8 +11,13 @@ class GeoUtils:
             return "Point"
         elif isinstance(geo_param, Polygon):
             return "Polygon"
+        elif isinstance(geo_param, MultiPolygon):
+            return "MultiPolygon"
         else:
             return "Unknown"
+
+    def is_geo_multipolygon(geo_param):
+        return GeoUtils.check_geometry_type(geo_param) == "MultiPolygon"
 
     def is_geo_point(geo_param):
         return GeoUtils.check_geometry_type(geo_param) == "Point"
@@ -43,3 +48,7 @@ class GeoUtils:
         distance = radius * c
 
         return distance
+
+    def convert_multipolygon_to_list_of_polygons(multipolygon_param):
+        multi =  MultiPolygon(multipolygon_param)
+        return [p for p in multi.geoms]
