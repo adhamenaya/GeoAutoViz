@@ -11,3 +11,4 @@ clustergram~=0.8.0
 psycopg2~=2.9.6
 setuptools~=68.0.0
 networkx~=2.8.4
+scikit-learn~=1.2.1

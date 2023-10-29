@@ -27,31 +27,55 @@ class ZoneAreaAnalyzer:
         buildings = len(self.extractor.get_buildings(Point(lat, lon), distance=distance))
         residential = len(self.extractor.get_residential(Point(lat, lon), distance=distance))
         commercial = len(self.extractor.get_commercial(Point(lat, lon), distance=distance))
-        leisure = len(self.extractor.get_leisure(Point(lat, lon), distance=distance))
-        green_spaces = len(self.extractor.get_green_spaces(Point(lat, lon), distance=distance))
-        sports = len(self.extractor.get_sports(Point(lat, lon), distance=distance))
-        educational = len(self.extractor.get_educational(Point(lat, lon), distance=distance))
-        healthcare = len(self.extractor.get_healthcare(Point(lat, lon), distance=distance))
         sustenance = len(self.extractor.get_sustenance(Point(lat, lon), distance=distance))
-        religious = len(self.extractor.get_religious(Point(lat, lon), distance=distance))
+        leisure = len(self.extractor.get_leisure(Point(lat, lon), distance=distance))
+        #green_spaces = len(self.extractor.get_green_spaces(Point(lat, lon), distance=distance))
+        public_service = len(self.extractor.get_public_service(Point(lat, lon), distance=distance))
+        business = len(self.extractor.get_business(Point(lat, lon), distance=distance))
 
-        return list(map(lambda x: x + 1, [buildings, residential, commercial, leisure, green_spaces,
-                                          sports, educational, healthcare, sustenance, religious]))
+        return list(
+            map(lambda x: x + 1,
+                [buildings, residential, commercial, sustenance, leisure, business, public_service]))
 
     def extract_pois_density_in_polygon(self, polygon):
         buildings = len(self.extractor.get_buildings(polygon))
         residential = len(self.extractor.get_residential(polygon))
         commercial = len(self.extractor.get_commercial(polygon))
-        leisure = len(self.extractor.get_leisure(polygon))
-        green_spaces = len(self.extractor.get_green_spaces(polygon))
-        sports = len(self.extractor.get_sports(polygon))
-        educational = len(self.extractor.get_educational(polygon))
-        healthcare = len(self.extractor.get_healthcare(polygon))
         sustenance = len(self.extractor.get_sustenance(polygon))
-        religious = len(self.extractor.get_religious(polygon))
+        leisure = len(self.extractor.get_leisure(polygon))
+        #green_spaces = len(self.extractor.get_green_spaces(polygon))
+        public_service = len(self.extractor.get_public_service(polygon))
+        business = len(self.extractor.get_business(polygon))
 
-        return list(map(lambda x: x + 1, [buildings, residential, commercial, leisure, green_spaces,
-                                          sports, educational, healthcare, sustenance, religious]))
+        return list(
+            map(lambda x: x + 1,
+                [buildings, residential, commercial, sustenance, leisure, business, public_service]))
+
+    def get_classified_buildings(self, polygon, df_classes):
+
+        # poi_classes = {"building": 1,
+        #                "residential": 2,
+        #                "commercial": 3,
+        #                "sustenance": 4,
+        #                "business": 5,
+        #                "public_service": 6,
+        #                "green_spaces": 7,
+        #                "leisure": 8
+        #                }
+
+        building2 = self.extractor.get_buildings(polygon)
+        building2["osmid"] = building2.index.get_level_values(1)
+        residential = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 2]["osmid"])])
+        commercial = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 3]["osmid"])])
+        sustenance = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 4]["osmid"])])
+        business = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 5]["osmid"])])
+        public_service = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 6]["osmid"])])
+        #ßgreen_spaces = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 7]["osmid"])])
+        leisure = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 8]["osmid"])])
+
+        return list(
+            map(lambda x: x + 1,
+                [len(building2), residential, commercial, sustenance, leisure, green_spaces, business, public_service]))
 
     def calculate_service_area(self, city_name, origin, impedance_type):
         # Create a graph using OpenStreetMap data

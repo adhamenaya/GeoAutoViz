@@ -18,6 +18,7 @@ GeoAutoViz/mobile_app_data/TrajectoryAnalyzer/TrajectoryAnalyzer.py
 GeoAutoViz/mobile_app_data/TrajectoryAnalyzer/TrajectoryDataSource.py
 GeoAutoViz/mobile_app_data/TrajectoryAnalyzer/UKZonesDataSource.py
 GeoAutoViz/mobile_app_data/TrajectoryAnalyzer/__init__.py
+GeoAutoViz/spatial_analysis/POIsAnalyzer.py
 GeoAutoViz/spatial_analysis/POIsExtractor.py
 GeoAutoViz/spatial_analysis/ZoneAreaAnalyzer.py
 GeoAutoViz/spatial_analysis/__init__.py
