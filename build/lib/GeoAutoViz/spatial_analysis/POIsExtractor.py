@@ -27,17 +27,28 @@ class POIsExtractor():
     def get_pois_based_on_point(self, point, tags, distance):
         return ox.geometries_from_point(center_point=point, tags=tags, dist=distance)
 
-    def get_pois_based_on_polygon(self, polygon, tags):
-        return ox.geometries_from_polygon(polygon=polygon, tags=tags)
+    def get_pois_based_on_polygon(self, lst_plgn, tags):
+        lst_data = None
+        for plgn in lst_plgn:
+            data = ox.geometries_from_polygon(polygon=plgn, tags=tags)
+            if lst_data is None:
+                lst_data = data
+            else:
+                lst_data = lst_data.append(data)
+        return lst_data
 
     def get_pois_by_tags(self, geo_param, tags, distance=0, _class=None):
         data = pd.DataFrame()
         if GeoUtils.is_geo_point(geo_param):
             data = self.get_pois_based_on_point(point=(geo_param.x, geo_param.y), tags=tags, distance=distance)
         elif GeoUtils.is_geo_polygon(geo_param):
-            data = self.get_pois_based_on_polygon(geo_param, tags=tags)
+            data = self.get_pois_based_on_polygon([geo_param], tags=tags)
+        elif GeoUtils.is_geo_multipolygon(geo_param):
+            lst_plgn = GeoUtils.convert_multipolygon_to_list_of_polygons(geo_param)
+            data = self.get_pois_based_on_polygon(lst_plgn, tags=tags)
         data["class"] = _class
         return data
+
 
     def get_buildings(self, geo_param, distance=0):
         tags = {"building": True}
@@ -80,7 +91,7 @@ class POIsExtractor():
         return self.get_pois_by_tags(geo_param, tags, distance, poi_classes['public_service'])
 
     def get_green_spaces(self, geo_param, distance=0):
-        tags = {'leisure': ['garden', 'park', 'playground'],'landuse':['greenfield','grass']}
+        tags = {'leisure': ['garden', 'park', 'playground']}
         return self.get_pois_by_tags(geo_param, tags, distance, poi_classes['green_spaces'])
 
     def get_leisure(self, geo_param, distance=0):

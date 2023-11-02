@@ -2,6 +2,7 @@ import math
 
 import networkx as nx
 import osmnx as ox  # (optional, for fetching OpenStreetMap data)
+import pandas as pd
 from shapely import Point
 
 
@@ -51,7 +52,7 @@ class ZoneAreaAnalyzer:
             map(lambda x: x + 1,
                 [buildings, residential, commercial, sustenance, leisure, business, public_service]))
 
-    def get_classified_buildings(self, polygon, df_classes):
+    def get_classified_buildings_from_lcoal_file(self, buildings, df_classes):
 
         # poi_classes = {"building": 1,
         #                "residential": 2,
@@ -63,19 +64,18 @@ class ZoneAreaAnalyzer:
         #                "leisure": 8
         #                }
 
-        building2 = self.extractor.get_buildings(polygon)
-        building2["osmid"] = building2.index.get_level_values(1)
-        residential = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 2]["osmid"])])
-        commercial = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 3]["osmid"])])
-        sustenance = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 4]["osmid"])])
-        business = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 5]["osmid"])])
-        public_service = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 6]["osmid"])])
-        #ßgreen_spaces = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 7]["osmid"])])
-        leisure = len(building2[building2["osmid"].isin(df_classes[df_classes["class"] == 8]["osmid"])])
+        buildings["osmid"] = buildings.index.get_level_values(1)
+        residential = len(buildings[buildings["osmid"].isin(df_classes[df_classes["class"] == 2]["osmid"])])
+        commercial = len(buildings[buildings["osmid"].isin(df_classes[df_classes["class"] == 3]["osmid"])])
+        sustenance = len(buildings[buildings["osmid"].isin(df_classes[df_classes["class"] == 4]["osmid"])])
+        business = len(buildings[buildings["osmid"].isin(df_classes[df_classes["class"] == 5]["osmid"])])
+        public_service = len(buildings[buildings["osmid"].isin(df_classes[df_classes["class"] == 6]["osmid"])])
+        green_spaces = len(buildings[buildings["osmid"].isin(df_classes[df_classes["class"] == 7]["osmid"])])
+        leisure = len(buildings[buildings["osmid"].isin(df_classes[df_classes["class"] == 8]["osmid"])])
 
         return list(
             map(lambda x: x + 1,
-                [len(building2), residential, commercial, sustenance, leisure, green_spaces, business, public_service]))
+                [len(buildings), residential, commercial, sustenance, leisure, green_spaces, business, public_service]))
 
     def calculate_service_area(self, city_name, origin, impedance_type):
         # Create a graph using OpenStreetMap data

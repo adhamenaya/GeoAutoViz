@@ -1,4 +1,4 @@
-from shapely import Point, Polygon, MultiPolygon
+from shapely import Point, Polygon, MultiPolygon, wkt
 import math
 
 
@@ -52,3 +52,13 @@ class GeoUtils:
     def convert_multipolygon_to_list_of_polygons(multipolygon_param):
         multi =  MultiPolygon(multipolygon_param)
         return [p for p in multi.geoms]
+
+    def is_valid_geometry(geom_text):
+        try:
+            # Attempt to create a Shapely geometry object from the WKT
+            geom = wkt.loads(geom_text)
+            # Check if the geometry is valid
+            return geom.is_valid
+        except Exception as e:
+            # If there was an exception while creating the geometry, it is not valid
+            return False
